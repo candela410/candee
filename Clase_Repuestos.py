@@ -4,13 +4,13 @@ from Clase_Categorias import Categoria
 from BD import conectar
 
 class Repuesto():
-    def __init__(self,id_repuesto, nombre, stock,precio_unitario,marca,categoria):
+    def __init__(self,id_repuesto=None, nombre="", stock=0,precio_unitario=0.0,id_marca=None,id_categoria=None):
         self.id_repuesto=id_repuesto
         self.nombre=nombre
         self.stock=stock
         self.precio_unitario=precio_unitario
-        self.marca=marca
-        self.categoria=categoria
+        self.marca=id_marca
+        self.categoria=id_categoria
         tabla_repuestos()
     
     def agregar_repuestos(self):

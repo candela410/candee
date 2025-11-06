@@ -51,10 +51,12 @@ def tabla_repuestos():
     create table if not exists Repuestos(
         id_repuesto integer primary key autoincrement,
         nombre varchar(100) not null,
-        id_marca integer,
-        foreign key (id_marca) references Marcas(id_marca),
         stock integer,
-        precio_unitario integer
+        precio_unitario real,
+        id_marca integer,
+        id_categoria integer,
+        foreign key (id_categoria) references Categorias (id_categoria),
+        foreing key (id_marca) references Marcas (id_marca)
     )""")   
 
     conexion.commit()
