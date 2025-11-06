@@ -24,7 +24,7 @@ def tabla_categorias():
     conexion=conectar()
     cursor= conexion.cursor()
     cursor.execute("""
-    create table if not exists Categoria(
+    create table if not exists Categorias(
         id_categoria integer primary key autoincrement,
         nombre varchar(100) not null
     )""")
@@ -48,15 +48,15 @@ def tabla_repuestos():
     conexion=conectar()
     cursor=conexion.cursor()
     cursor.execute("""
-    create table if not exists Repuestos(
-        id_repuesto integer primary key autoincrement,
-        nombre varchar(100) not null,
-        stock integer,
-        precio_unitario real,
-        id_marca integer,
-        id_categoria integer,
-        foreign key (id_categoria) references Categorias (id_categoria),
-        foreing key (id_marca) references Marcas (id_marca)
+        create table if not exists Repuestos(
+            id_repuesto integer primary key autoincrement,
+            nombre varchar(100) not null,
+            stock integer,
+            precio_unitario real,
+            id_marca integer,
+            id_categoria integer,
+            foreign key (id_categoria) references Categorias (id_categoria),
+            foreign key (id_marca) references Marcas (id_marca)
     )""")   
 
     conexion.commit()
@@ -66,13 +66,13 @@ def tabla_repuestos():
 
 def tabla_pedidos():
     conexion=conectar()
-    cursor=conexion.cursor
+    cursor=conexion.cursor()
     cursor.execute("""
     create table if not exists Pedidos(
         id_pedido integer primary key autoincrement,
         fecha_pedido datetime,
         fecha_entrega varchar (50),
-        total integer not null.
+        total integer not null,
         id_proveedor int,
         foreign key (id_proveedor) references Proveedores (id_proveedor)
     )""")
@@ -85,11 +85,11 @@ def tabla_detalle_pedidos():
     cursor=conexion.cursor()
     cursor.execute("""
     create table if not exists Detalle_pedidos(
-        id_pedidos integer,
-        id_repuestos integer,
-        primary key (id_pedidos,id_repuestos),
-        foreign key (id_pedidos) references Pedidos (id_pedidos),
-        foreign key (id_repuestos) references Repuestos (id_repuestos),
+        id_pedido integer,
+        id_repuesto integer,
+        primary key (id_pedido,id_repuesto),
+        foreign key (id_pedido) references Pedidos (id_pedidos),
+        foreign key (id_repuesto) references Repuestos (id_repuesto),
         cantidad integer not null,
         precio_total integer not null
     )""")

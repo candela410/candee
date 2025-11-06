@@ -2,7 +2,7 @@
 from BD import tabla_proveedores
 from BD import conectar
 class Proveedor():
-    def __init__(self, id_proveedor,nombre,telefono, direccion, estado):
+    def __init__(self, id_proveedor=None,nombre="",telefono=None, direccion="", estado=""):
         self.Id_proveedor=id_proveedor
         self.nombre=nombre
         self.telefono=telefono

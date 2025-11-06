@@ -5,7 +5,7 @@ from BD import conectar
 
 
 class Pedido():
-    def __init__(self, id_pedidos,fecha_pedido, fecha_entrega, total,id_proveedor):
+    def __init__(self, id_pedidos=None,fecha_pedido=None, fecha_entrega=None, total=0,id_proveedor=None):
         self.id_pedido=id_pedidos
         self.fecha_pedido=fecha_pedido
         self.fecha_entrega=fecha_entrega

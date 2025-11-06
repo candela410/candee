@@ -1,6 +1,4 @@
 from BD import tabla_repuestos
-from Clase_Marcas import Marca
-from Clase_Categorias import Categoria
 from BD import conectar
 
 class Repuesto():
