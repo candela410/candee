@@ -150,7 +150,7 @@ def Pedidos():
     ped=Pedido()
     while True:
         print("--PEDIDOS--")
-        print 
+        
         
 
 def Estadisticas():
