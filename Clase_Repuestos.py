@@ -4,8 +4,8 @@ from Clase_Categorias import Categoria
 from BD import conectar
 
 class Repuesto():
-    def __init__(self,Id_repuesto, nombre, stock,precio_unitario,marca,categoria):
-        self.Id_repuesto=Id_repuesto
+    def __init__(self,id_repuesto, nombre, stock,precio_unitario,marca,categoria):
+        self.id_repuesto=id_repuesto
         self.nombre=nombre
         self.stock=stock
         self.precio_unitario=precio_unitario
@@ -14,34 +14,49 @@ class Repuesto():
         tabla_repuestos()
     
     def agregar_repuestos(self):
-        conexion=conectar()
-        cursor=conexion.cursor()
         nombre=input("Ingrese el nombre del nuevo repuesto")
         stock=int(input("Ingresar su stock"))
         precio_unitario=int(input("Ingresar "))
         marca=input("Ingresar el ID de la marca")
         categoria=int(input("Ingresar el ID de la categoria"))
-        cursor.execute(""" insert into repuestos (nombre, stock,precio_unitario,marca,categoria) values (?,?,?,?,?)""", nombre, stock, precio_unitario, marca, categoria)
-        conexion.commit()
-        conexion.close ()
-        print("Se agrego el repuesto a la BD")
+        try:
+            conexion=conectar()
+            cursor=conexion.cursor()
+            cursor.execute(""" insert into repuestos (nombre, stock,precio_unitario,marca,categoria) values (?,?,?,?,?)""", nombre, stock, precio_unitario, marca, categoria)
+            conexion.commit()
+            print("Se agrego el repuesto a la BD")
+        except Exception as e:
+            print("Error al agregar el repuesto",e)
+        finally:
+            conexion.close ()
+        
 
     def eliminar_repuestos(self):
-        conexion=conectar()
-        cursor=conexion.cursor()
         id=int(input("Ingresar el ID del repuesto que desea eliminar: "))
-        cursor.execute(""" delete from repuestos where id_repuesto= ?""", id)
-        conexion.commit()
-        conexion.close()
-        print("El producto fue eliminado correctamente")
+        try:
+            conexion=conectar()
+            cursor=conexion.cursor()
+            cursor.execute(""" delete from repuestos where id_repuesto= ?""", id)
+            conexion.commit()
+            print("El producto fue eliminado correctamente")
+        except Exception as e:
+            print("Error al eliminar el repuesto", e)
+        finally:
+            conexion.close()
+        
 
     def ejecutar_modificacion_repuesto(self,dato, nombre_columna, repuesto):
-        conexion=conectar()
-        cursor=conexion.cursor()
-        cursor.execute(""" update repuestos set {nombre_columna}= ? where id_repuesto= ?""", dato, repuesto)
-        conexion.commit()
-        conexion.close()
-        print("El respuesto se modificó correctamente")
+        try:
+            conexion=conectar()
+            cursor=conexion.cursor()
+            cursor.execute(f""" update repuestos set {nombre_columna}= ? where id_repuesto= ?""", dato, repuesto)
+            conexion.commit()
+            print("El respuesto se modificó correctamente")
+        except Exception as e:
+            print(f"Error al modificar la la columna {nombre_columna}",e)
+        finally:
+            conexion.close()
+        
 
     def modificar_repuesto(self):
         repuesto=int(input("Ingrsar el ID del repuesto que desea modificar. "))
@@ -60,12 +75,20 @@ class Repuesto():
             print("opcion invalida")
         
     def listar_repuestos(self):
-        conexion=conectar()
-        cursor=conexion.cursor()
-        repuestos=list(cursor.fetchall())
-        for id_repuesto, nombre, stock, precio_unitario in repuestos:
-            print (f"Id: {id_repuesto} - Nombre: {nombre} - Stock: {stock} - Precio Unitario: {precio_unitario}")
-        conexion.close()
+        print("--LISTA DE REPUESTOS--")
+        try:
+            conexion=conectar()
+            cursor=conexion.cursor()
+            repuestos=list(cursor.fetchall())
+            if not repuestos:
+                print("No hay repuestos registrados")
+            else:
+                for id_repuesto, nombre, stock, precio_unitario, marca, categoria in repuestos:
+                    print (f"Id: {id_repuesto} - Nombre: {nombre} - Stock: {stock} - Precio Unitario: {precio_unitario} - Marca:{marca} - Categoria:{categoria}")
+        except Exception as e:
+            print("Error al mostrar la lista de Respuestos",e)
+        finally:
+            conexion.close()
 
     
 

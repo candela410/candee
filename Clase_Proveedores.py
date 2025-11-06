@@ -10,7 +10,6 @@ class Proveedor():
         self.estado=estado
         tabla_proveedores()
 
-
     def agregar_proveedor(self):
         nombre=input("Ingresar el nombre del proveedor:  ")
         telefono=input("Ingresar el teléfono:  ")

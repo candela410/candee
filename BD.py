@@ -52,7 +52,7 @@ def tabla_repuestos():
         id_repuesto integer primary key autoincrement,
         nombre varchar(100) not null,
         id_marca integer,
-        foreign key (Id_marca) references marcas(Id_marca),
+        foreign key (id_marca) references Marcas(id_marca),
         stock integer,
         precio_unitario integer
     )""")   
@@ -70,7 +70,9 @@ def tabla_pedidos():
         id_pedido integer primary key autoincrement,
         fecha_pedido datetime,
         fecha_entrega varchar (50),
-        total integer not null
+        total integer not null.
+        id_proveedor int,
+        foreign key (id_proveedor) references Proveedores (id_proveedor)
     )""")
     fecha_pedido =datetime.now()
     conexion.commit()
@@ -83,9 +85,9 @@ def tabla_detalle_pedidos():
     create table if not exists Detalle_pedidos(
         id_pedidos integer,
         id_repuestos integer,
-        primary key (Id_pedidos,Id_repuestos),
-        foreign key (Id_pedidos) references pedidos (Id_pedidos),
-        foreign key (Id_repuestos) references repuestos (Id_repuestos),
+        primary key (id_pedidos,id_repuestos),
+        foreign key (id_pedidos) references Pedidos (id_pedidos),
+        foreign key (id_repuestos) references Repuestos (id_repuestos),
         cantidad integer not null,
         precio_total integer not null
     )""")
