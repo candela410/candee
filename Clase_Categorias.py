@@ -1,5 +1,6 @@
 from BD import tabla_categorias
 from BD import conectar
+from BD import linea
 
 class Categoria():
     def __init__(self,id_categoria,nombre):
@@ -16,31 +17,49 @@ class Categoria():
         self.__id_categoria=nuevo_id
 
     def agregar_categoria(self):
-        nombre=input("Ingrese el nombre de la categoria que desea agregar")
-        try:
-            conexion=conectar()
-            cursor=conexion.cursor()
-            cursor.execute("""insert into categorias (nombre) values(?)""",nombre)
-            conexion.commit()
-            print (f"La categoria {nombre} se agregó exitosamente")
-        except Exception as e:
-            print("Error al agregar una categoria",e)
-        finally:
-            conexion.close()
+        print("----AGREGAR CATEGORIA----")
+        while True:
+            nombre=input("Ingrese el nombre de la categoria que desea agregar")
+            try:
+                conexion=conectar()
+                cursor=conexion.cursor()
+                cursor.execute("""insert into categorias (nombre) values(?)""",(nombre,))
+                conexion.commit()
+                print()
+                print (f"La categoria {nombre} se agregó exitosamente")
+                linea()
+            except Exception as e:
+                linea()
+                print("Error al agregar una categoria",e)
+                linea()
+            finally:
+                conexion.close()
+            continuar=int(input("Si desea agregar otra categoria ingrese 1 sino 0 "))
+            linea()
+            if continuar != 1:
+                break
 
 
     def eliminar_categoria(self):
-        id=input("Ingrese el id de la categoria que desee eliminar")
-        try:
-            conexion=conectar()
-            cursor=conexion.cursor()
-            cursor.execute(""" delete from proveedores where id_categoria= ?""", id)
-            conexion.commit()
-            print(f"La categoria {id} fué eliminada correctamente")
-        except Exception as e:
-            print("Error al eliminar la categoria")
-        finally:
-            conexion.close()
+        linea()
+        print("----ELIMINAR CATEGORIA----")
+        linea()
+        while True:
+            id=input("Ingrese el id de la categoria que desee eliminar")
+            try:
+                conexion=conectar()
+                cursor=conexion.cursor()
+                cursor.execute(""" delete from proveedores where id_categoria= ?""", (id,))
+                conexion.commit()
+                print(f"La categoria {id} fué eliminada correctamente")
+            except Exception as e:
+                print("Error al eliminar la categoria")
+            finally:
+                conexion.close()
+            continuar=int(input("Si desea eliminar otra categoria  ingrese 1 sino 0 "))
+            linea()
+            if continuar != 1:
+                break
 
 
     def modificar_categoria(self):
@@ -49,7 +68,7 @@ class Categoria():
         try:
             conexion=conectar()
             cursor=conexion.cursor()
-            cursor.execute(""" update categorias set nombre= ? where id_categoria= ? """, id_cat, nombre)
+            cursor.execute(""" update categorias set nombre= ? where id_categoria= ? """, (id_cat, nombre))
             conexion.commit()
             print(f"La categoria {id_cat} fué modificada correctamente ")
         except Exception as e:
@@ -59,7 +78,9 @@ class Categoria():
 
 
     def mostrar_categorias (self):
-        print("--LISTA DE CATEGORIAS--")
+        linea()
+        print("----LISTA DE CATEGORIAS----")
+        linea()
         try:
             conexion=conectar()
             cursor=conexion.cursor()

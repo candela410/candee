@@ -1,5 +1,6 @@
 from BD import tabla_detalle_pedidos
 from BD import conectar
+from BD import linea
 
 class Detalle_pedido():
     def __init__(self,id_pedido,id_repuesto,cantidad,precio_total):
@@ -10,45 +11,46 @@ class Detalle_pedido():
         tabla_detalle_pedidos()
 
 
-    def agregar_detalle(self):
-        print("-- AGREGAR DETALLE DEL PEDIDO --")   
-        id_pedido = input("Ingrese ID del pedido: ")
-        id_repuesto = input("Ingrese ID del repuesto: ")
-        cantidad = input("Ingrese cantidad: ")
-        precio_total = input("Ingrese precio total: ")
-
+    def agregar_detalle(self, id_pedido):
         try:
-            conexion = conectar()
-            cursor = conexion.cursor()
-            cursor.execute("""
-                INSERT INTO Detalle_Pedido (id_pedido, id_repuesto, cantidad, precio_total)
-                VALUES (?, ?, ?, ?)
-            """, (id_pedido, id_repuesto, cantidad, precio_total))
-            conexion.commit()
-            print("Detalle agregado correctamente.")
+            while True:
+                id_repuesto = input("Ingrese ID del repuesto: ")
+                cantidad = input("Ingrese cantidad: ")
+                precio_total=0
+                conexion = conectar()
+                cursor = conexion.cursor()
+                cursor.execute("""
+                    INSERT INTO Detalle_Pedido (id_pedido, id_repuesto, cantidad, precio_total)
+                    VALUES (?, ?, ?, ?)
+                """, (id_pedido, id_repuesto, cantidad, precio_total))
+                conexion.commit()
+                continuar=int(input("Si desea agregar otro producto ingrese 1 sino 0 "))
+                linea()
+                if continuar != 1:
+                    break
         except Exception as e:
+            linea()
             print("Error al agregar el detalle:", e)
+            linea()
         finally:
             conexion.close()
 
-    def listar_detalles(self):
-        print("--LISTA DE DETALLES DE PEDIDOS--")
+    def listar_detalles(self,id_pedido):
+        linea()
+        print("----DETALLES DEL PEDIDO----")
+        linea()
         try:
             conexion = conectar()
             cursor = conexion.cursor()
             cursor.execute("""
-                SELECT d.id_detalle, p.id_pedido, r.nombre, d.cantidad, d.precio_total
-                FROM detalle_Pedido d
+                SELECT r.nombre, d.cantidad, d.precio_total, 
                 INNER JOIN Pedidos p ON d.id_pedido = p.id_pedido
                 INNER JOIN Repuestos r ON d.id_rep = r.id_rep
-            """)
+                where id_pedido= ?
+            """, (id_pedido))
             detalles =list(cursor.fetchall())
-
-            if not detalles:
-                print("No hay detalles registrados.")
-            else:
-                for d in detalles:
-                    print(f"ID Detalle: {d[0]} | Pedido: {d[1]} | Repuesto: {d[2]} | Cantidad: {d[3]} | Total: ${d[4]}")
+            for nombre, cantidad, precio in detalles:
+                print(f"Repuesto: {nombre} | Cantidad: {cantidad} | Total: ${precio} ")
         except Exception as e:
             print("Error al listar los detalles:", e)
         finally:

@@ -1,8 +1,9 @@
 import sqlite3
 from datetime import datetime
+import os
 
 def conectar():
-    return sqlite3.connect(r"C:\Users\cande\OneDrive\Documentos\tablas1.bd")
+    return sqlite3.connect(r"C:\Users\cande\OneDrive\Documentos\tablas1.db")
 
 
 def tabla_proveedores():
@@ -74,6 +75,7 @@ def tabla_pedidos():
         fecha_entrega varchar (50),
         total integer not null,
         id_proveedor int,
+        estado varchar(100),
         foreign key (id_proveedor) references Proveedores (id_proveedor)
     )""")
     fecha_pedido =datetime.now()
@@ -96,3 +98,7 @@ def tabla_detalle_pedidos():
 
     conexion.commit()
     conexion.close()
+
+def linea():
+    ancho = os.get_terminal_size().columns
+    print("=" * ancho)

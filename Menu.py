@@ -4,41 +4,54 @@ from Clase_Marcas import Marca
 from Clase_Repuestos import Repuesto
 from Clase_Pedidos import Pedido
 from Clase_Detalle import Detalle_pedido
+from BD import linea
+
 
 
 def menu_principal():
     while True:
-        print ("--SISTEMA DE REPARACIÓN--")
-        print ("1-Repuestos")
-        print ("2-Proveedores")
-        print ("3-Estadisticas")
-        print ("4-Salir")
+        linea()
+        print ("----SISTEMA DE REPARACIÓN----")
+        linea()
+        print ("1- Repuestos")
+        print ("2- Proveedores")
+        print ("3- Estadisticas")
+        print ("4- Salir")
+        print()
         opcion=int(input("Elegir una opcion:  "))
+        linea()
         if opcion== 1:
             Repuestos()
         else: 
             if opcion==2:
                 Proveedores()
             else:
-                if opcion==3:
+                if opcion==3:       
                     Estadisticas()
                 else:
-                    break
+                    if opcion==4:
+                        print("Adios..")
+                        break
+                    else:
+                        print("Opcion invalida")
 
 
 
 def Repuestos():
     rep=Repuesto()
     while True:
-        print ("--REPUESTOS--")
-        print ("1-Listar los repuestos")
-        print ("2-Agregar un repuesto")
-        print ("3-Eliminar un epuesto")
-        print ("4-Modificar un repuesto")
+        print ("----REPUESTOS----")
+        linea()
+        print ("1- Listar los repuestos")
+        print ("2- Agregar un repuesto")
+        print ("3- Eliminar un epuesto")
+        print ("4- Modificar un repuesto")
         print ("5- Marcas")
         print ("6- Categoria")
         print ("7- Salir")
+        print()
         opcion=int(input("Elegir una opción:  "))
+        linea()
         if opcion==1:
             rep.listar_repuestos()
         else:
@@ -65,13 +78,16 @@ def Repuestos():
 def Marcas():
     marca= Marca()
     while True:
-        print ("--MARCAS--")
+        print ("----MARCAS----")
+        linea()
         print ("1- Listar Marcas")
         print ("2- Agregar Marca")
         print ("3- Eliminar Marca")
         print ("4- Modificar Marca")
         print ("5- Salir")
+        print()
         opcion=int(input("Elegir una opcion:  "))
+        linea()
         if opcion==1:
             marca.listar_marca()
         else:
@@ -92,13 +108,16 @@ def Marcas():
 def Categorias():
     categoria=Categoria()
     while True:
-        print ("--CATEGORIAS--")
-        print ("1-Agregar Categorias")
-        print ("2-Eliminar ")
-        print ("3-modificar")
-        print ("4-listar categorias")
-        print ("5-Salir")
+        print ("----CATEGORIAS----")
+        linea()
+        print ("1- Agregar Categorias")
+        print ("2- Eliminar ")
+        print ("3- Modificar")
+        print ("4- Listar categorias")
+        print ("5- Salir")
+        print()
         opcion=int(input("Elegir una opcion:  "))
+        linea()
         if opcion==1:
             categoria.agregar_categoria()
         else:
@@ -122,13 +141,16 @@ def Categorias():
 def Proveedores():
     prov=Proveedor()
     while True:
-        print("--PROVEEDORES--")
+        print("----PROVEEDORES----")
+        linea()
         print ("1- Listar un proveedor")
         print ("2- Agregar un proveedor")
         print ("3- Realizar un pedido")
         print ("4- Modificar un proveedor")
         print ("5- Salir")
+        print()
         opcion=int(input("Elija una opcion: "))
+        linea()
         if opcion==1:
             prov.mostrar_proveedores()
         else:
@@ -149,8 +171,24 @@ def Proveedores():
 def Pedidos():
     ped=Pedido()
     while True:
-        print("--PEDIDOS--")
-        
+        print("----PEDIDOS----")
+        linea()
+        print("1- Realizar un pedido")
+        print("2- Listar pedidos")
+        print("3- Salir")
+        print()
+        opcion=int(input("Elija una opcion: "))
+        linea()
+        if opcion==1:
+            ped.agregar_pedido()
+        else:
+            if opcion==2:
+                ped.listar_pedidos()
+            else:
+                if opcion==3:
+                    break
+                else:
+                    print("Opcion invalida")
         
 
 def Estadisticas():
